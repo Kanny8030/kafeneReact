@@ -8,8 +8,8 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [displayProducts, setDisplayProducts] = useState([]);
   const [activeFilters, setActiveFilters] = useState({
-    expired: true,
-    low_stock: true
+    expired: false,
+    low_stock: false
   });
   const [count, setCount] = useState(0);
 
@@ -34,7 +34,7 @@ function Products() {
   };
 
   const _updateDisplayOrders = () => {
-    if (activeFilters["expired"] && activeFilters["low_stock"]) {
+    if (!activeFilters["expired"] && !activeFilters["low_stock"]) {
       setDisplayProducts(products);
       setCount(products.length);
       return;
@@ -42,19 +42,19 @@ function Products() {
     const dispProds = [];
     for (const product of products) {
       let { expiryDate, stock } = product;
-      if (activeFilters["low_stock"] === true && !activeFilters["expired"]) {
+      if (activeFilters["expired"] === true && !activeFilters["low_stock"]) {
         const now = new Date();
         expiryDate = new Date(product.expiryDate);
-        if (expiryDate > now) dispProds.push(product);
+        if (expiryDate < now) dispProds.push(product);
       }
-      if (activeFilters["expired"] === true && !activeFilters["low_stock"]) {
-        if (!isNaN(Number(stock)) && Number(stock) > 100)
+      if (activeFilters["low_stock"] === true && !activeFilters["expired"]) {
+        if (!isNaN(Number(stock)) && Number(stock) < 100)
           dispProds.push(product);
       }
-      if (!activeFilters["expired"] && !activeFilters["low_stock"]) {
+      if (activeFilters["expired"] && activeFilters["low_stock"]) {
         const now = new Date();
         expiryDate = new Date(product.expiryDate);
-        if (expiryDate > now && !isNaN(Number(stock)) && Number(stock) > 100)
+        if (expiryDate < now && !isNaN(Number(stock)) && Number(stock) < 100)
           dispProds.push(product);
       }
     }

@@ -36,15 +36,13 @@ function Product(props) {
           className="OrderTable"
           style={{
             width: "40%",
-            backgroundColor: "#666",
-            color: "white",
-            marginButton: "250px",
-            boxShadow: "5px 5px 20px  #666"
+
+            marginButton: "250px"
           }}
         >
           <tbody id="orders-table">
             <tr className="TableRow">
-              <th>Detail</th>
+              <th>Variable</th>
               <th>Value</th>
             </tr>
             <tr className="TableRow">
